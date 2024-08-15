@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../AuthProvider/AuthProvider";
+import SocialLogin from "../SocialLogin/SocialLogin";
 
 const Login = () => {
 
@@ -91,7 +92,7 @@ const Login = () => {
               </div>
               
             </form>
-            {/* <SocialLogin></SocialLogin> */}
+            <SocialLogin></SocialLogin>
            
           </div>
         </div>

@@ -13,15 +13,15 @@ const Home = () => {
   const { data: product = [], isLoading, error } = useQuery({
     queryKey: ['product', search, currentPage, productPerPage],
     queryFn: async () => {
-      const response = await fetch(`http://localhost:5000/product?search=${search}&page=${currentPage}&size=${productPerPage}`);
-      if (!response.ok) {
-        throw new Error("Failed to fetch products");
-      }
-      const data = await response.json(); 
-      console.log("Fetched products:", data); 
-      return data;
+        const response = await fetch(`http://localhost:5000/product?search=${search}&page=${currentPage}&size=${productPerPage}`);
+        if (!response.ok) {
+            throw new Error("Failed to fetch products");
+        }
+        const data = await response.json();
+        return data;
     }
-  });
+});
+
 
   
   useEffect(() => {
@@ -70,7 +70,7 @@ const Home = () => {
     <div className="max-w-6xl">
       {/* Search */}
       <div className="text-center my-10">
-        <h2 className="text-2xl text-orange-500 mb-5">Search class by the name</h2>
+        <h2 className="text-2xl text-orange-500 mb-5">Search by the name</h2>
         <form onSubmit={handleSearch}>
           <input type="text" name="search" placeholder="type here" className="py-2 mr-1" />
           <input type="submit" value="Search" className="btn bg-orange-400 text-white" />

@@ -8,12 +8,13 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [count, setCount] = useState(0);
   const [search, setSearch] = useState('');
+  const [asc, setAsc] = useState(true);
 
   // Fetching product data with pagination and search
   const { data: product = [], isLoading, error } = useQuery({
-    queryKey: ['product', search, currentPage, productPerPage],
+    queryKey: ['product', search, currentPage, productPerPage, asc],
     queryFn: async () => {
-        const response = await fetch(`http://localhost:5000/product?search=${search}&page=${currentPage}&size=${productPerPage}`);
+        const response = await fetch(`http://localhost:5000/product?search=${search}&page=${currentPage}&size=${productPerPage}&sort=${asc? 'asc' : 'desc'}`);
         if (!response.ok) {
             throw new Error("Failed to fetch products");
         }
@@ -69,12 +70,22 @@ const Home = () => {
   return (
     <div className="max-w-6xl">
       {/* Search */}
-      <div className="text-center my-10">
+      <div className=" my-10 text-center">
+       
         <h2 className="text-2xl text-orange-500 mb-5">Search by the name</h2>
         <form onSubmit={handleSearch}>
           <input type="text" name="search" placeholder="type here" className="py-2 mr-1" />
           <input type="submit" value="Search" className="btn bg-orange-400 text-white" />
         </form>
+       {/* sort */}
+        <div className="my-10">
+          <h2 className="text-orange-400 mb-3">Click here to get high to low and low to high price product!!</h2>
+          <button className="bg-orange-400 p-3 text-white rounded-lg"
+          onClick={() => setAsc(!asc)}
+          >
+            {asc? 'Price: High to Low' : 'Price: Low to High'}
+            </button>
+        </div>
       </div>
       {/* Card */}
       <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -95,8 +106,8 @@ const Home = () => {
               <div className="flex flex-row justify-between">
                 <h2 className=" font-bold">Creation Date: {new Date (item.creationDate).toLocaleDateString()}</h2>
                 <h2 className=" font-bold">Creation Time: {new Date (item.creationDate).toLocaleTimeString()}</h2>
-                {/* <h2 className="font-bold">Price: {item.price}</h2> */}
               </div>
+              <h2 className="font-bold">Price: ${item.price}</h2>
                 <p>{item.description}</p>
               </div>
             </div>

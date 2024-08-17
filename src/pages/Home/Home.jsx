@@ -8,13 +8,14 @@ const Home = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [count, setCount] = useState(0);
   const [search, setSearch] = useState('');
+  const [type, setType] = useState('');
   const [asc, setAsc] = useState(true);
 
   // Fetching product data with pagination and search
   const { data: product = [], isLoading, error } = useQuery({
-    queryKey: ['product', search, currentPage, productPerPage, asc],
+    queryKey: ['product', search, currentPage, productPerPage, asc, type],
     queryFn: async () => {
-        const response = await fetch(`http://localhost:5000/product?search=${search}&page=${currentPage}&size=${productPerPage}&sort=${asc? 'asc' : 'desc'}`);
+        const response = await fetch(`http://localhost:5000/product?search=${search}&page=${currentPage}&size=${productPerPage}&sort=${asc? 'asc' : 'desc'}&type=${type}`);
         if (!response.ok) {
             throw new Error("Failed to fetch products");
         }
@@ -28,19 +29,20 @@ const Home = () => {
   useEffect(() => {
     const getProductCount = async () => {
       try {
-        const response = await fetch('http://localhost:5000/product-count');
+        const response = await fetch(`http://localhost:5000/product-count?type=${type}`);
         if (!response.ok) {
           throw new Error("Failed to fetch product count");
         }
         const data = await response.json(); 
         setCount(data.count); 
+        setCurrentPage(1);
         console.log("Total products count:", data.count); 
       } catch (error) {
         console.error('Failed to fetch product count:', error);
       }
     };
     getProductCount();
-  }, []);
+  }, [type]);
 
   const numberOfPages = Math.ceil(count / productPerPage);
   const pages = [...Array(numberOfPages).keys()].map(
@@ -69,24 +71,49 @@ const Home = () => {
 
   return (
     <div className="max-w-6xl">
-      {/* Search */}
+        {/* Search */}
       <div className=" my-10 text-center">
        
-        <h2 className="text-2xl text-orange-500 mb-5">Search by the name</h2>
-        <form onSubmit={handleSearch}>
-          <input type="text" name="search" placeholder="type here" className="py-2 mr-1" />
-          <input type="submit" value="Search" className="btn bg-orange-400 text-white" />
-        </form>
-       {/* sort */}
-        <div className="my-10">
-          <h2 className="text-orange-400 mb-3">Click here to get high to low and low to high price product!!</h2>
-          <button className="bg-orange-400 p-3 text-white rounded-lg"
-          onClick={() => setAsc(!asc)}
-          >
-            {asc? 'Price: High to Low' : 'Price: Low to High'}
-            </button>
-        </div>
-      </div>
+       <h2 className="text-2xl text-orange-500 mb-5">Search by the name</h2>
+       <form onSubmit={handleSearch}>
+         <input type="text" name="search" placeholder="type here" className="py-2 mr-1" />
+         <input type="submit" value="Search" className="btn bg-orange-400 text-white" />
+       </form>
+      {/* sort */}
+     <div className="my-10">
+         <h2 className="text-orange-400 mb-3">Click here to get high to low and low to high price product!!</h2>
+         <button className="bg-orange-400 p-3 text-white rounded-lg"
+         onClick={() => setAsc(!asc)}
+         >
+           {asc? 'Price: High to Low' : 'Price: Low to High'}
+           </button>
+       </div>
+       {/* filter by category */}
+       <div>
+        <select
+        onChange={e => {
+          setType(e.target.value)
+          setCurrentPage(1)
+        }}
+        value={type}
+        name='category'
+        id='category'
+        >
+          <option value="">Filter By Category </option>
+          <option value="Clothing">Clothing</option>
+          <option value="Toys">Toys</option>
+          <option value="Electronics">Electronics</option>
+          <option value="Baby Gear">Baby Gear</option>
+          <option value="Accessories">Accessories</option>
+          <option value="Baby Care">Baby Care</option>
+          <option value="Footwear">Footwear</option>
+          <option value="Furniture">Furniture</option>
+          <option value="Arts & Crafts">Arts & Crafts</option>
+          <option value="Books">Books</option>
+        </select>
+       </div>
+     </div>
+     
       {/* Card */}
       <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {
@@ -142,3 +169,5 @@ const Home = () => {
 };
 
 export default Home;
+
+

@@ -85,10 +85,10 @@ const Login = () => {
                 </label>
               </div>
               <div className="form-control mt-2">
-                <button className="btn bg-purple-400">Login</button>
+                <button className="btn bg-orange-400 text-white">Login</button>
               </div>
               <div>
-              <p className="text-center">Have an account? <Link to='/register' className="text-purple-500 font-bold ">Register</Link> </p>
+              <p className="text-center">Have an account? <Link to='/register' className="text-orange-500 font-bold ">Register</Link> </p>
               </div>
               
             </form>

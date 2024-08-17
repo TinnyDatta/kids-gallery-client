@@ -134,10 +134,10 @@ const Register = () => {
                 registerError && <p className="text-red-500">{registerError}</p>
               }
               <div className="form-control mt-2">
-                <button className="btn bg-purple-400">Register</button>
+                <button className="btn bg-orange-400 text-white">Register</button>
               </div>
             </div>
-            <p className="text-center mb-4">Already have an account? <Link to='/login' className="text-blue-500 font-bold ">Login</Link> </p>
+            <p className="text-center mb-4">Already have an account? <Link to='/login' className="text-orange-500 font-bold ">Login</Link> </p>
           </form>
         </div>
       </div>

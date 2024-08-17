@@ -18,7 +18,7 @@ const Home = () => {
     queryKey: ['product', search, currentPage, productPerPage, sort, asc, type, brand, priceRange],
     queryFn: async () => {
       const [minPrice, maxPrice] = priceRange ? priceRange.split('-').map(Number) : [0, Infinity];
-      const response = await fetch(`http://localhost:5000/product?search=${search}&page=${currentPage}&size=${productPerPage}&sort=${sort}&sortOrder=${asc ? 'asc' : 'desc'}&type=${type}&brand=${brand}&minPrice=${minPrice}&maxPrice=${maxPrice}`);
+      const response = await fetch(`https://kids-gallery-server.vercel.app/product?search=${search}&page=${currentPage}&size=${productPerPage}&sort=${sort}&sortOrder=${asc ? 'asc' : 'desc'}&type=${type}&brand=${brand}&minPrice=${minPrice}&maxPrice=${maxPrice}`);
       if (!response.ok) {
         throw new Error("Failed to fetch products");
       }
@@ -31,14 +31,14 @@ const Home = () => {
     const getProductCount = async () => {
       try {
         const [minPrice, maxPrice] = priceRange ? priceRange.split('-').map(Number) : [0, Infinity];
-        const response = await fetch(`http://localhost:5000/product-count?type=${type}&brand=${brand}&minPrice=${minPrice}&maxPrice=${maxPrice}`);
+        const response = await fetch(`https://kids-gallery-server.vercel.app/product-count?type=${type}&brand=${brand}&minPrice=${minPrice}&maxPrice=${maxPrice}`);
         if (!response.ok) {
           throw new Error("Failed to fetch product count");
         }
         const data = await response.json();
         setCount(data.count);
         setCurrentPage(1);
-        console.log("Total products count:", data.count);
+        // console.log("Total products count:", data.count);
       } catch (error) {
         console.error('Failed to fetch product count:', error);
       }

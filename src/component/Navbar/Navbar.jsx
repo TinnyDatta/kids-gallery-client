@@ -1,6 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../../AuthProvider/AuthProvider";
+import { useContext } from "react";
 
 const Navbar = () => {
+  const {logout} = useContext(AuthContext)
     return (
           <div className="navbar bg-orange-100 my-6 rounded-xl">
   <div className="navbar-start">
@@ -23,13 +26,15 @@ const Navbar = () => {
         tabIndex={0}
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
         <li><Link to='/'>Products</Link></li>
+        <button onClick={logout} className="btn mr-3 font-bold text-orange-400 bg-white ">Logout</button>
       </ul>
     </div>
     <a className="btn btn-ghost text-2xl font-bold text-orange-500">Kids Gallery</a>
   </div>
   <div className="navbar-center hidden lg:flex">
     <ul className="menu menu-horizontal px-1">
-      <li><Link to='/' className="font-bold text-orange-400">Products</Link></li>
+      <li><Link to='/' className="font-bold text-orange-400  bg-white mr-3">Products</Link></li>
+      <li><button onClick={logout} className="  font-bold text-orange-400 bg-white ">Logout</button></li>
     </ul>
   </div>
   <div className="navbar-end">
